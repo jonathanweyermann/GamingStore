@@ -30,4 +30,14 @@ class Product_model extends CI_Model{
 		 return $query->result();
 	 }
 	 
+	 public function get_popular(){
+		 $this->db->select('P.*, COUNT(O.product_id) as total');
+		 $this->db->from('orders as O');
+		 $this->db->join('products as P', 'O.product_id = P.id', 'INNER');
+		 $this->db->group_by('O.product_id');
+		 $this->db->order_by('total', 'desc');
+		 $query = $this->db->get();
+		 return $query->result();
+		 
+	 }
 }
